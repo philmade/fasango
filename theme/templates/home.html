@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="flex flex-col md:w-3/4 mx-auto">
+    <div id="header-statement" class="">
+        <div class="flex flex-col mx-auto text-center text-white text-5xl p-6">
+            {% if not user %}The evidence-based platform for fearless, independent thinkers.{% else %}
+            Cases by @{{user.username}}{% endif %}
+        </div>
+        {% if not user %}
+        <div class="flex p-8 mb-5">
+            <div class="font-sans font-bold text-md mx-auto gradient-button p-4 px-6 rounded-full">
+                <a href="/create">
+                    Create a case</a>
+                </p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="mx-10 h-px border border-zinc-600"></div>
+    {% if not user %}
+    <div class="w-1/2 mx-auto justify-center items-center flex gap-2.5 p-2 flex-wrap">
+        {% for subject in subjects %}
+        <div class="flex bg-zinc-300 bg-opacity-0 rounded-full p-2 justify-center items-center gap-2.5 border"
+            style="border-color: {{subject.color}};">
+            <div class="text-white text-sm font-normal">
+                {{subject.slug | capitalize}} {{subject.emoticon}}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="mx-10 h-px border border-zinc-600"></div>
+
+
+    <div id="cases_container" class="px-5 mx-auto">
+        {% for case in cases %}
+        <div if="case_{{case.id}}" class="flex flex-col w-full p-5">
+            <div id="case_x_meta" class="flex justify-between py-2">
+
+                <div class="flex self-start grow-0 bg-zinc-300 bg-opacity-0 rounded-full p-1 border border-lime-500 justify-center items-center"
+                    style="border-color: {{case.subject.color}};">
+                    <div class=" text-white text-sm font-normal">{{case.subject.slug | capitalize}}
+                        {{case.subject.emoticon}} </div>
+                </div>
+                <div class="flex text-neutral text-sm text-gray-300">
+                    {{case.updated_at | time_since}}
+                </div>
+            </div>
+            <a href="{{ url_for ('case', case_id=case.id) }}">
+                <div id="case_x_title" class="text-white text-3xl font-bold hover:underline">
+                    {{case.title}}
+                </div>
+            </a>
+            <div id="case_x_description" class="text-neutral-300 text-md font-normal py-2">
+                {{case.description}}
+            </div>
+            <div class="w-full h-px border border-zinc-600"></div>
+            <div id="case_x_posted_by" class="py-2 flex flex-row justify-start gap-3">
+                <div class="flex">
+                    <img class="flex h-5 w-5 rounded-full" src="https://picsum.photos/10/10" />
+                    <a href="/u/{{case.owner.username}}">
+                        <div class="flex text-white text-sm font-normal ml-1">{{case.owner.username}}</div>
+                    </a>
+                </div>
+                <div class="flex text-red-500 text-sm font-bold">{{case.sources.count()}} sources</div>
+                <!-- <div class="flex text-orange-300 text-sm font-bold">8 interactors</div> -->
+                {% if request.state.user.is_superuser %}
+                <a href="/d/admin/case_app/case/{{case.id}}/change/" class="hover:underline">
+                    <div class="flex text-orange-300 text-sm font-bold">admin</div>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

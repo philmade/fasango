@@ -1,0 +1,120 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>{% if title %}{{title}}{% else %} case - the new front page of the internet {% endif %}</title>
+	<script src="https://unpkg.com/htmx.org@1.9.2"></script>
+	<script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+	<script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script>
+	<script src="https://unpkg.com/hyperscript.org@0.9.9"></script>
+	<script src="https://unpkg.com/hyperscript.org/dist/eventsource.js"></script>
+	<script src="https://unpkg.com/hyperscript.org/dist/socket.js"></script>
+	<script src="https://unpkg.com/hyperscript.org/dist/worker.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oxygen">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=DM+Sans">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kanit"> -->
+	<link rel="stylesheet" href="/static//css/dist/styles.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-NMGKG2J2VH"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', 'G-NMGKG2J2VH');
+	</script>
+	<!-- Recaptcha -->
+
+	<head>
+		<script
+			src="https://www.google.com/recaptcha/enterprise.js?render=6LfjpI4mAAAAABXgM5yTwiVq5Y9HrUHeRFY85B7s"></script>
+	</head>
+
+	<script>
+		async function executeRecaptcha(action) {
+			return new Promise((resolve, reject) => {
+				grecaptcha.enterprise.ready(async () => {
+					try {
+						const token = await grecaptcha.enterprise.execute('6LfjpI4mAAAAABXgM5yTwiVq5Y9HrUHeRFY85B7s', { action });
+						resolve(token);
+					} catch (error) {
+						reject(error);
+					}
+				});
+			});
+		}
+	</script>
+</head>
+
+<body class="flex flex-col flex-grow justify-between h-screen bg-gray-900 text-white">
+	<!-- Hot reload script -->
+	{% if DEBUG %} {{ hot_reload.script(url_for('hot-reload')) | safe }} {% endif
+	%}
+
+	<div id="navigation" class="flex bg-charcoal-900 py-4">
+
+		<nav class="container mx-auto flex items-center justify-between p-2">
+			<div id="logoAndCreate" class="flex">
+				<a href="/">
+					<div class="flex">
+						<img src="{{ url_for('static', path='/img/atom4.png') }}"
+							class="rounded-3xl w-24 h-24 mx-auto shrink-0 self-end" style="object-fit: cover;">
+						<!-- <p class="text-5xl p-2 self-center font-oswald">CASE</p>
+						<p class="text-5xl p-2 self-center font-dm-sans">CASE</p> -->
+						<p class="hidden md:flex md:text-5xl p-2 self-center font-oxygen">CASE</p>
+						<!-- <p class="text-5xl p-2 self-center font-kanit">CASE</p> -->
+
+					</div>
+				</a>
+
+
+			</div>
+
+			<ul class="flex space-x-4">
+				{% if request.path != '/create' %}
+				<p class="font-sans text-md ml-5 bg-green-500 px-2 py-1 rounded-xl self-center shrink-0"><a
+						href="/create"> +
+						create a case</a>
+				</p>
+				{% endif %}
+				{% if request.state.user != 'anon' %}
+				<li class="py-1"><a href="/account" class="hover:text-gray-300">account</a></li>
+				<li class="py-1"><a href="/u/{{request.state.user.username}}" class="hover:text-gray-300">profile</a>
+				</li>
+				<li class="py-1"><a href="/logout" class="hover:text-gray-300">logout</a></li>
+				{% else %}
+				<li class="py-1"><a href="/login" class="hover:text-gray-300">Login</a></li>
+				<li class="py-1"><a href="/register" class="hover:text-gray-300">Register</a></li>
+				{% endif %}
+				<!-- <li><a href="/logout" class="hover:text-gray-300">Logout</a></li>
+				<li><a href="/register" class="hover:text-gray-300">Register</a></li>
+				<li><a href="" class="hover:text-gray-300">Password Reset</a></li>
+				<li><a href="#" class="hover:text-gray-300">About</a></li> -->
+				<!-- <li class="py-1"><a href="/contact" class="hover:text-gray-300">Contact</a></li> -->
+			</ul>
+		</nav>
+	</div>
+
+	<div class="w-full flex overflow-visible xl:overflow-auto">
+		{% block content %}
+		{% endblock %}
+	</div>
+
+	<div class="flex">
+		{% block scripts %}
+		{% endblock %}
+	</div>
+
+
+
+
+
+</body>
+
+</html>

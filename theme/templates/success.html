@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="flex flex-col items-center justify-center h-screen">
+        <div class="flex flex-col max-w-md">
+            <div id="subscription-type"
+                class="border-green-200 {% if profile.subscription_type %} border-b rounded-lg {% endif %} border-t border-l border-r p-6 shadow-lg text-white rounded-t-lg bg-gray-800">
+                <p
+                    class="text-4xl mb-4 font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-200 to-cyan-100 hover:underline">
+                    Thanks for becoming a power user
+                </p>
+                <ul class="ml-5 mb-5 text-white">
+                    {% if profile %}
+                    <li class=" list-item list-disc">You're on the {{profile.subscription_type}} package.</li>
+                    {% endif %}
+                    <li class=" list-item list-disc">Unlimited access to all cases</li>
+                    <li class=" list-item list-disc">Create private cases</li>
+                    <li class=" list-item list-disc">New document types, including mp3, video, and
+                        .doc
+                        [coming soon]</li>
+                    <li class=" list-item list-disc">$10 per month</li>
+                </ul>
+                <a href="/create-portal-session">
+                    <button id="subscribe-basic"
+                        class="bg-gradient-to-tr from-red-400 to-purple-500 w-full hover:font-bold text-white px-3 py-2 rounded-xl focus:outline-none focus:shadow-outline"
+                        type="submit">Manage your subscription</button>
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Your Account{% endblock %}
+{% import 'subscription_status.html' as sub_status %}
+{% block content %}
+<div class="flex flex-col md:flex-row justify-between w-full bg-slate-900 h-screen p-6 text-white">
+    <div class="w-full md:w-3/4 rounded-b-xl px-2 py-4">
+        <h2 class="text-4xl py-2"> <span
+                class="bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-purple-400">Welcome, {{
+                user.username }}</span></h2>
+        <p class="py-4">Thanks for being a part of the case.science alpha. We're
+            rolling things out slowly please stick with us
+            {{ sub_status.display_subscription(profile) }}
+        </p>
+        <span class="flex w-2/3 bg-gradient-to-r from-red-400 to-purple-400 p-0.5">
+        </span>
+        <h2 class="text-xl py-4 bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-purple-400">Your
+            Permissions</h2>
+        <p class="mb-1 py-2">While we get up and running, permission to create a case is restricted.
+            Below
+            are
+            your current permissions.</p>
+        <ul class="list-disc flex flex-col py-4 px-4 space-y-4">
+            {% for permission in user_permissions %}
+            <li class="mx-2 flex">
+                <!-- Replace with the actual gem image source -->
+                <img src="{{ url_for('static', path='/img/create_case.png') }}" alt="Gem for permission"
+                    class="w-10 h-10 xl:w-20 xl:h-20 rounded-full">
+                <p class="px-2 self-center flex">{% if permission == 'Create Case' %} You
+                    can
+                    create
+                    a
+                    Case! {%
+                    else %}{{ permission }}{% endif %}</p>
+            </li>
+            {% endfor %}
+            <li class="mx-2 flex">
+                <!-- Replace with the actual gem image source -->
+                <img src="{{ url_for('static', path='/img/talk_case_3.png') }}" alt="Gem for permission"
+                    class="w-10 h-10 xl:w-20 xl:h-20 rounded-full">
+                <p class="px-2 self-center flex">You can talk with Cases!</p>
+            </li>
+        </ul>
+        <span class="flex w-2/3 bg-gradient-to-r from-red-400 to-purple-400 p-0.5">
+        </span>
+        <h2 class="text-xl bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-purple-400 py-4">Your
+            Invites
+        </h2>
+        {% if invitation or user.is_superuser %}
+        <li class="mx-2 flex px-4">
+            <!-- Replace with the actual gem image source -->
+            <img src="{{ url_for('static', path='/img/invite.png') }}" alt="Gem for permission"
+                class="w-10 h-10 xl:w-20 xl:h-20 rounded-full">
+            <p class="px-2 text-lg self-center flex">You have one invite!</p>
+        </li>
+        <form action="/send-invite" method="post">
+            <!-- <label class="block text-gray-200 text-sm font-bold px-4 py-1" for="invitee-email">
+                Send email invite to:
+            </label> -->
+            <div class="m-4 flex flex-col md:flex-row">
+                <input
+                    class="rounded-lg w-full py-2 px-3 bg-gray-800 text-white leading-tight focus:outline-none focus:ring-1 focus:ring-white focus:ring-opacity-50"
+                    id="invitee-email" type="email" placeholder="invitee@example.com" name="invitee_email">
+                <button
+                    class="bg-lime-600 w-auto ml-5 hover:font-bold text-white px-4 rounded-lg focus:outline-none focus:shadow-outline"
+                    type="submit">
+                    Send
+                </button>
+            </div>
+
+        </form>
+        <li class="mx-2 flex px-4">
+            <!-- Replace with the actual gem image source -->
+            <img src="{{ url_for('static', path='/img/invite.png') }}" alt="Gem for permission"
+                class="w-10 h-10 xl:w-20 xl:h-20 rounded-full">
+            <p class="px-2 text-lg self-center flex">You have can upgrade users!</p>
+        </li>
+        <form action="/upgrade-user" method="post">
+            <!-- <label class="block text-gray-200 text-sm font-bold px-4 py-1" for="invitee-email">
+                Send upgrade to:
+            </label> -->
+            <div class="m-4 flex flex-col md:flex-row">
+                <input
+                    class="rounded-lg w-full py-2 px-3 bg-gray-800 text-white leading-tight focus:outline-none focus:ring-1 focus:ring-white focus:ring-opacity-50"
+                    id="user-email" type="email" placeholder="upgrade@example.com" name="user_email">
+                <button
+                    class="bg-lime-600 w-auto ml-5 hover:font-bold text-white px-4 rounded-lg focus:outline-none focus:shadow-outline"
+                    type="submit">
+                    Send
+                </button>
+            </div>
+        </form>
+        {% else %}
+        <!-- You don't have any invitations right now -->
+        <p class="mb-1 py-2">No Invitations</p>
+        {% endif %}
+    </div>
+    <div class="hidden lg:flex-col lg:flex">
+        <img src="/static/img/loginart.png" alt="login" class="w-full h-screen object-cover">
+    </div>
+</div>
+
+
+{% endblock %}

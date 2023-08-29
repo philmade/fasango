@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "cardgame"
+version = "0.1.0"
+description = ""
+authors = ["phil harper <phil@imrge.co>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.103.0"
+django = "^4.2.4"
+python-dotenv = "^1.0.0"
+loguru = "^0.7.0"
+arrow = "^1.2.3"
+fastapi-mail = "^1.4.1"
+markdown = "^3.4.4"
+arel = "^0.2.0"
+stripe = "^6.1.0"
+uvicorn = "^0.23.2"
+psycopg2 = "^2.9.7"
+python-jose = "^3.3.0"
+python-multipart = "^0.0.6"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.25.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

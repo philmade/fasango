@@ -1,0 +1,25 @@
+{% macro display_subscription(profile) %}
+{% if not profile.subscription_type %}
+<h2 class="text-xl py-2">You're on the free account</h2>
+<p class="text-gray-600 mb-4">Upgrade to the Individual or Business plan to get access to all features.</p>
+<a href="/subscribe">
+    <button id="subscribe-basic"
+        class="px-4 py-2 font-semibold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800">Upgrade</button>
+</a>
+{% else %}
+<h2 class="text-xl py-2">
+    You're on the
+    {{profile.subscription_type}} package</h2>
+<p class="text-gray-600 mb-4">
+    {% if profile.subscription_type == 'individual' %}
+    <!-- Individual subscription details -->
+    {% elif profile.subscription_type == 'business' %}
+    <!-- Business subscription details -->
+    {% endif %}
+    <a href="/create-portal-session">
+        <button id="subscribe-basic"
+            class="px-4 py-2 font-semibold text-white bg-orange-600 rounded-full hover:bg-organge-700 focus:outline-none focus:shadow-outline-blue active:bg-orange-800"
+            type="submit">Manage your subscription</button>
+    </a>
+    {% endif %}
+    {% endmacro %}

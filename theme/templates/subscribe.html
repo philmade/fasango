@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="flex flex-col items-center justify-center h-screen">
+        <div class="flex flex-col max-w-md">
+            <div id="subscription-type"
+                class="border-green-200 {% if profile.subscription_type %} border-b rounded-lg {% endif %} border-t border-l border-r p-6 shadow-lg text-white rounded-t-lg bg-gray-800">
+                {% if not profile.subscription_type %}
+                <p
+                    class="text-4xl mb-4 font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-100 to-purple-100 hover:underline">
+                    <span class="text-yellow-300">⚡</span> Become a power user
+                </p>
+                <p class="text-white mb-4">Unlock more features and support the <span
+                        class="font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-purple-400 hover:underline">case.science</span>
+                    mission to make something happen.</p>
+                {% else %}
+                <p
+                    class="text-4xl mb-4 font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-100 to-purple-100 hover:underline">
+                    💭 You're on the
+                    {{profile.subscription_type}} package</p>
+                <ul class="ml-5 mb-5 text-white">
+                    <li class=" list-item list-disc">Unlimited access to all stuff</li>
+                    <li class=" list-item list-disc">Create private stuff</li>
+                    <li class=" list-item list-disc">New stuff, including mp3, video, and
+                        .doc
+                        [coming soon]</li>
+                    <li class=" list-item list-disc">$10 per month</li>
+                </ul>
+                <a href="/create-portal-session">
+                    <button id="subscribe-basic"
+                        class="bg-gradient-to-tr from-red-400 to-purple-500 w-full hover:font-bold text-white px-3 py-2 rounded-xl focus:outline-none focus:shadow-outline"
+                        type="submit">Manage your subscription</button>
+                </a>
+                {% endif %}
+            </div>
+
+            {% if not profile.subscription_type %}
+            <div class="px-6 py-4 rounded-b-lg bg-slate-900 border-b border-l border-r border-gray-50">
+                <h3
+                    class="font-bold text-2xl py-4 bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-purple-400 hover:underline">
+                    Upgrade to the Individual Plan</h3>
+                <ul class="ml-5 mb-5">
+                    <li class="list-item list-disc">Unlimited access to all stuff</li>
+                    <li class="list-item list-disc">Create private stuff</li>
+                    <li class="list-item list-disc">New stuff types, including mp3, video, and
+                        .doc</li>
+
+                    <li class=" list-item list-disc">$10 per month</li>
+                </ul>
+
+                <form action="/create-checkout-session" method="POST">
+                    <input type="hidden" name="priceId" value="{{individual_product}}" />
+                    <button type="submit"
+                        class="bg-gradient-to-tr from-red-400 to-purple-500 w-full hover:font-bold text-white px-3 py-2 rounded-xl focus:outline-none focus:shadow-outline"
+                        type="submit">Subscribe Now</button>
+                </form>
+
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block title %}Your site registration{% endblock %}
+{% block content %}
+
+<div class="flex flex-row justify-between w-full bg-slate-950">
+
+    <div class="flex flex-col w-full">
+        <div class="flex flex-row w-full justify-between p-6">
+            <div class="flex">
+                <img src="static/img/atom4.png" class="w-10 h-10">
+            </div>
+            <p class="font-bold text-xl">
+                <a href="/login">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-purple-400">log
+                        in
+                    </span>
+
+                </a>
+            </p>
+        </div>
+        <div class="flex flex-col items-center justify-start h-screen w-full p-6">
+            <div class="flex flex-col mt-36 w-full md:w-1/2">
+                <div class="py-6">
+                    <p class="font-bold text-4xl">Welcome to <span
+                            class="bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-purple-400">case.</span>
+                        </span> </p>
+
+                    <p class="font-bold text-4xl">Let's find the truth together.</p>
+                </div>
+                <form class="p-2" action="/register" method="post" onsubmit="return validateEmail()">
+                    {% if invitation and (invitation.used == False) %}
+                    <ul>
+                        <li class="mx-2 flex">
+                            <!-- Replace with the actual gem image source -->
+                            <img src="{{ url_for('static', path='/img/invite.png') }}" alt="Gem for permission"
+                                class="w-10 h-10 xl:w-20 xl:h-20 rounded-full">
+                            <p class="px-2 text-mg self-center flex text-gray-700">Congratulations! You have a Case
+                                Invite!
+                            </p>
+                        </li>
+                    </ul>
+                    {% endif %}
+                    {% if invitation and (invitation.used == True) %}
+                    <ul>
+                        <li class="mx-2 flex">
+                            <!-- Replace with the actual gem image source -->
+                            <img src="{{ url_for('static', path='/img/invite.png') }}" alt="Gem for permission"
+                                class="w-10 h-10 xl:w-20 xl:h-20 rounded-full">
+                            <p class="px-2 text-mg self-center flex text-gray-700">That invitation has been used.
+                            </p>
+                        </li>
+                    </ul>
+                    {% endif %}
+                    {% if message %}
+                    <div class="mb-4">
+                        <p class="block text-center text-gray-600 mb-2">
+                            {{message}}
+                        </p>
+                        <!-- Confirmation green tick heroicon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-10 h-10 text-green-600 animate-pulse mx-auto">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    {% endif %}
+                    {% if not message %}
+                    <div class="flex flex-col md:flex-row md:space-x-6 w-full justify-between">
+                        <div class="mb-4 w-full">
+                            <label id="email-label" class="block text-gray-600 text-sm font-bold mb-2" for="username">
+                                Your email
+                            </label>
+                            <input hx-post="/usersettings/check-email" hx-trigger="keydown change delay:500ms"
+                                hx-swap="outerHTML" hx-target="#email-label" id="email"
+                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" type="email"
+                                class="standard-input w-full py-2 px-3" id=" email" type="text"
+                                placeholder="you@provider.com" name="email">
+                            <input name="recaptcha" id="recaptcha_input" hidden>
+                            <input name="recaptcha_action" id="recaptcha_action" hidden value="REGISTER">
+                        </div>
+                        <div class="mb-4 w-full">
+                            <label id="username-label" class="block text-gray-600 text-sm font-bold mb-2"
+                                for="username">
+                                Pick a username
+                            </label>
+                            <input id="username" hx-post="/usersettings/check-username"
+                                hx-trigger="keydown change delay:500ms" hx-swap="outerHTML" hx-target="#username-label"
+                                class="standard-input w-full py-2 px-3" id="email" type="text"
+                                placeholder="great_username" name="username" pattern="[^a-zA-Z0-9_]">
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:space-x-6 w-full justify-between">
+                        <div class="mb-6 w-full">
+                            <label class="block text-gray-600 text-sm font-bold mb-2">
+                                Set password
+                            </label>
+                            <input id="password" type="password" class="standard-input w-full py-2 px-3 "
+                                placeholder="password" name="password">
+
+                        </div>
+                        <div class="mb-6 w-full">
+                            <label id="password-warning" class="block text-gray-600 text-sm font-bold mb-2">
+                                Confirm password
+                            </label>
+                            <input hx-post="/usersettings/check-password" hx-trigger="keydown delay:1s"
+                                hx-swap="outerHTML" hx-target="#password-warning"
+                                class="standard-input w-full py-2 px-3 " id=" password_confirm" type="password"
+                                placeholder="confirm" name="password_confirm">
+                        </div>
+                    </div>
+                    <div class="py-5">
+                        <input type="checkbox" name="agree" id="agree" class="bg-gray-800 rounded p-2">
+                        <label for="remember" class="text-gray-400 ml-4">I agree with the
+                            <a href="/terms-of-service">
+                                <span class="bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-purple-400">
+                                    Terms of service</span>
+                        </label>
+                        </a>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <button type="submit" class="gradient-button px-3 py-2 w-full">
+                            Create Free Account
+                        </button>
+
+                    </div>
+
+                    <input type="hidden" name="invitation_uuid" value="{{invitation.uuid}}">
+
+                    {% else %}
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="hidden lg:flex-col lg:flex">
+        <img src="/static/img/loginart.png" alt="login" class="w-full h-screen object-cover">
+    </div>
+    <!-- A registration page with username, password, confirm password, using Tailwind CSS -->
+
+</div>
+</div>
+</div>
+{% endblock %}

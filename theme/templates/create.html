@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex flex-row justify-between w-full bg-slate-950">
+
+    <div class="flex flex-col w-full">
+        <div class="flex flex-row w-full justify-between p-6">
+            <div class="flex">
+                <img src="/static/img/atom4.png" class="w-10 h-10">
+            </div>
+        </div>
+
+        <div class="flex flex-col items-center justify-start h-screen w-full">
+            <div class="flex flex-col mt-36 w-full md:w-1/2">
+                <p class="text-4xl py-8 px-4">{% if case %} Edit {% else %} Create {% endif %} Your Case</p>
+                <form {% if case %} action="/case/{{case.id}}/edit" {% else %} action="/create" {% endif %}
+                    method="post" _="on load call executeRecaptcha('submit') then set #recaptcha_input.value to it"
+                    id="caseForm" class="p-2">
+
+                    <!-- Title -->
+                    <div class="mb-4 relative">
+                        <textarea name="title" id="title_input"
+                            class="w-full py-2 px-4 bg-gray-800 text-white rounded-lg focus:outline-none transition duration-200 hover:bg-gray-900"
+                            placeholder="{{ case.title.strip() if case else 'What’s your case? Be as specific as possible' }}"
+                            maxlength="255">{% if case %}{{ case.title.strip() }}{% endif %}</textarea>
+                        <span class="absolute top-2 left-4 text-white">
+                            <i class="fas fa-pencil-alt"></i>
+                        </span>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-6 relative">
+                        <textarea name="description" rows="5"
+                            class="w-full py-2 px-4 bg-gray-800 text-white rounded-lg focus:outline-none transition duration-200 hover:bg-gray-900"
+                            placeholder="{{ case.description.strip() if case else 'Describe your case in 100 words or less.' }}"
+                            maxlength="1000">{% if case %}{{ case.description.strip() }}{% endif %}</textarea>
+                        <span class="absolute top-2 left-4 text-white">
+                            <i class="fas fa-edit"></i>
+                        </span>
+                    </div>
+
+
+
+
+                    <input name="recaptcha" id="recaptcha_input" hidden>
+
+                    {% if request.state.user.profile.subscription_type == 'individual' %}
+                    <div class="flex flex-row px-2">
+                        <input type="checkbox" id="private" name="private" checked class="py-3 px-3">
+                        <p class="ml-2 px-2 text-lg">Private case</p>
+                    </div>
+                    {% endif %}
+
+                    <div class="mt-4">
+                        <button type="submit"
+                            class="bg-gradient-to-r from-red-400 to-purple-500 w-full text-white py-2 px-4 rounded-lg focus:outline-none hover:bg-gradient-to-r hover:from-purple-500 hover:to-red-400 transition duration-200">
+                            {% if case %}Update Case{% else %}Let's go!{% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="hidden lg:flex-col lg:flex">
+        <img src="{{ url_for('static', path='/img/case_ai.png') }}" alt="Create Case"
+            class="w-full h-screen object-cover">
+    </div>
+</div>
+
+
+
+{% endblock %}

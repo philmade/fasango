@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('../font/IBM_Plex_Sans/IBMPlexSans-Regular.ttf') format('truetype'),
+         url('../font/IBM_Plex_Sans/IBMPlexSans-Bold.ttf') format('truetype'),
+         url('../font/IBM_Plex_Sans/IBMPlexSans-Thin.ttf') format('truetype'),
+         url('../font/IBM_Plex_Sans/IBMPlexSans-Italic.ttf') format('truetype');
+  }
+  
+
+.standard-input{
+  @apply rounded-lg bg-gray-800 text-white leading-tight  focus:outline-none focus:ring-1 focus:ring-white focus:ring-opacity-50
+}
+
+.gradient-button{
+  @apply bg-gradient-to-tr from-red-400 to-purple-500 hover:font-bold text-white rounded-lg
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3 {
+  @apply text-white text-3xl font-bold;
+}
+
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+  @apply text-white text-xl font-semibold;
+}
+
+.markdown-content p {
+  @apply text-neutral-300 text-lg font-normal py-2;
+}
+
+.markdown-content a {
+  @apply text-red-500 underline;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  @apply pl-8;
+}
+
+.markdown-content li {
+  @apply text-neutral-300 text-lg font-normal py-1;
+}
+
+.markdown-content blockquote {
+  @apply border-l-4 border-lime-500 pl-4 italic;
+}
+
+.markdown-content code {
+  @apply bg-gray-800 text-white px-1 rounded;
+}
+
+.markdown-content pre {
+  @apply bg-gray-800 text-white p-4 rounded;
+}
+
+.markdown-content table {
+  @apply w-full border border-zinc-600;
+}
+
+.markdown-content th,
+.markdown-content td {
+  @apply border border-zinc-600 p-2;
+}
+
+.markdown-content img {
+  @apply max-w-full;
+}
