@@ -14,10 +14,11 @@ class Settings(BaseSettings):
     SUPABASE_API: str
     SUPABASE_URL: str
     POSTGRES_HOST: str
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
     DATABASE_NAME: str
     PORT: int
     USER: str
-    PASSWORD: str
     OPENAI_API_KEY: str
     DJANGO_SETTINGS_MODULE: str
     CHROME_DRIVER_PATH: str

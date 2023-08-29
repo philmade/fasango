@@ -56,7 +56,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "case_project.urls"
+ROOT_URLCONF = "django_backend.urls"
 TAILWIND_APP_NAME = "theme"
 
 TEMPLATES = [
