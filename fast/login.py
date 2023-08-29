@@ -17,7 +17,7 @@ from .dependencies import (
     _current_django_user,
 )
 from .schemas import Token
-from .extensions import templates
+from .extensions import templates, fast_mail
 from .configuration import settings
 from fastapi_mail import MessageSchema
 from . import exceptions
